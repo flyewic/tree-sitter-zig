@@ -34,7 +34,7 @@ pub fn build(b: *std.Build) !void {
     if (reuse_alloc) {
         lib.root_module.addCMacro("TREE_SITTER_REUSE_ALLOCATOR", "");
     }
-    if (optimize == .Debug) {
+    if (optimize == .debug) {
         lib.root_module.addCMacro("TREE_SITTER_DEBUG", "");
     }
 
@@ -87,7 +87,6 @@ pub fn build(b: *std.Build) !void {
 }
 
 inline fn fileExists(b: *std.Build, filename: []const u8) bool {
-    const dir = b.build_root.handle;
-    dir.access(b.graph.io, filename, .{}) catch return false;
+    b.root.access(b.graph.io, filename, .{}) catch return false;
     return true;
 }
